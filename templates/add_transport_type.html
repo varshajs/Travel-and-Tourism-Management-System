@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Transport Type</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 400px; text-align: center;">
+        <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 20px; color: #00373f;">Add New Transport Type</h1>
+        
+        <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+            <label for="transport_name" style="font-size: 14px; color: #00373f; text-align: left;">Transport Type Name:</label>
+            <input type="text" name="transport_name" required style="padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc;">
+
+            <button type="submit" style="padding: 10px 15px; font-size: 16px; color: white; background-color: #00373f; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;">
+                Add Transport Type
+            </button>
+        </form>
+        
+        <a href="{{ url_for('admin_dashboard') }}" style="display: block; margin-top: 20px; font-size: 14px; color: #00373f; text-decoration: none;">Return to Dashboard</a>
+    </div>
+</body>
+</html>

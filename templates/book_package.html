@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Package</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Global styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{{ url_for('static', filename='tajmahal.jpg') }}'); /* Add your image path here */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0, 31, 63, 0.7); /* White with slight transparency */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            color: #002b4f;
+        }
+        h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333;
+            margin-top: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            color: white;
+            margin-top: 15px;
+            text-align: left;
+        }
+        input[type="email"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #005f9e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #004a7c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Package</h1>
+        <form method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="transport_type">Select Transport Type:</label>
+            <select id="transport_type" name="transport_type" required>
+                <option value="">Select Transport Type</option>
+                {% for transport_type in transport_types %}
+                    <option value="{{ transport_type['TransportTypeID'] }}">{{ transport_type['TransportName'] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="transport_id">Select Transport:</label>
+            <select id="transport_id" name="transport_id" required>
+                <option value="">Select Transport</option>
+            </select>
+
+            <label for="hotel_id">Select Hotel:</label>
+            <select name="hotel_id" required>
+                <option value="">Select Hotel</option>
+                {% for hotel in hotels %}
+                    <option value="{{ hotel['HotelID'] }}">{{ hotel['Name'] }} - ₹{{ hotel['Price'] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="payment_option">Payment Option:</label>
+            <select name="payment_option" required>
+                <option value="">Select Payment</option>
+                <option value="Credit Card/Debit Card">Credit Card/Debit Card</option>
+                <option value="NetBanking">NetBanking</option>
+                <option value="UPI">UPI</option>
+            </select>
+
+            <button type="submit" class="button">Confirm Booking</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#transport_type').change(function() {
+                var transportTypeId = $(this).val();
+                var packageId = '{{ package_id }}';  // Ensure package_id is passed correctly
+                if (transportTypeId) {
+                    $.ajax({
+                        url: '/get_transports/' + transportTypeId + '/' + packageId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#transport_id').empty();
+                            $('#transport_id').append('<option value="">Select Transport</option>');
+                            $.each(data, function(index, transport) {
+                                $('#transport_id').append('<option value="' + transport.TransportID + '">' +
+                                    transport.StartLoc + ' to ' + transport.EndLoc + ' - ₹' + transport.Price +
+                                    '</option>');
+                            });
+                        },
+                        error: function() {
+                            alert('Error fetching transports. Please try again.');
+                        }
+                    });
+                } else {
+                    $('#transport_id').empty().append('<option value="">Select Transport</option>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

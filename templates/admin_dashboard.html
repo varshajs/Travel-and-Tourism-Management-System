@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #002b4f;
+            font-size: 36px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Navigation Styling */
+        nav {
+            width: 100%;
+            background-color: #002b4f;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 15px 20px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #004a7c;
+            border-radius: 5px;
+        }
+
+        /* Dashboard Content Styling */
+        .dashboard-content {
+            background-color: white;
+            width: 80%;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-content h2 {
+            color: #005f9e;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .package-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        .package-table th, .package-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .package-table th {
+            background-color: #005f9e;
+            color: white;
+        }
+
+        .package-table td {
+            background-color: #f9f9f9;
+        }
+
+        .button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #c0392b;
+        }
+
+        .update-button {
+            background-color: #3498db;
+        }
+
+        .update-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, Admin!</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('alluser') }}">View All Users</a></li>
+            <li><a href="{{ url_for('add_package') }}">Add Package</a></li>
+            <li><a href="{{ url_for('add_transport_type') }}">Add Transport Type</a></li>
+            <li><a href="{{ url_for('add_transport') }}">Add Transport</a></li>
+            <li><a href="{{ url_for('add_hotel') }}">Add Hotel</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-content">
+        <h2>Manage Packages</h2>
+        <!-- Displaying Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Table for displaying packages -->
+        <table class="package-table">
+            <thead>
+                <tr>
+                    <th>Package ID</th>
+                    <th>Package Name</th>
+                    <th>Price</th>
+                    <th>Last Modified</th> <!-- New Column -->
+                    <th>Delete</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in packages %}
+                    <tr>
+                        <td>{{ package.PackageID }}</td>
+                        <td>{{ package.Description }}</td>
+                        <td>{{ package.Price }}</td>
+                        <td>{{ package.last_modified }}</td> <!-- Display Last Modified -->
+                        <td>
+                            <form action="{{ url_for('delete_package', package_id=package.PackageID) }}" method="POST">
+                                <button type="submit" class="button">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('update_package', package_id=package.PackageID) }}" class="button update-button">Update</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

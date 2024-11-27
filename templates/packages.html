@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Packages</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="travelgo-navbar">
+        <div class="logo">TravelGo</div>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signin') }}">Register</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <div class="packages-container">
+            <h1>Packages</h1>
+
+            {% if packages %}
+                <ul>
+                    {% for package in packages %}
+                    <li class="{% if package[5] == 0 %}unavailable{% else %}available{% endif %}">
+                        <h2>{{ package[4] }}</h2>
+                        <p><strong>Start Date:</strong> {{ package[1] }}</p>
+                        <p><strong>End Date:</strong> {{ package[2] }}</p>
+                        <p><strong>Base Price:</strong> ₹{{ package[3] }}</p>
+                        
+                        {% if package[5] == 0 %}
+                            <p class="status unavailable">Unavailable</p>
+                            <button class="button unavailable" disabled>Unavailable</button>
+                        {% else %}
+                            <a href="{{ url_for('view_transport', package_id=package[0]) }}" class="button">View Transport</a>
+                            <a href="{{ url_for('select_hotels', package_id=package[0]) }}" class="button">View Hotels</a>
+                            <a href="{{ url_for('book_package', package_id=package[0]) }}" class="button">Book Now</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No packages are currently available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

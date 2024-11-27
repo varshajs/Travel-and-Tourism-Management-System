@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels for Package {{ package_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Global Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .navbar {
+            width: 100%;
+            background-color: rgba(0, 31, 63, 0.8);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Container for the entire hotel section */
+        .hotels-container {
+            max-width: 1200px;
+            padding: 40px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .hotels-container h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #002b4f;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for each hotel card */
+        .hotels-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .hotels-list li {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .hotels-list li:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Image styling */
+        .hotels-list img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        /* Hotel details */
+        .hotels-list h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #003366;
+        }
+
+        .hotels-list p {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        /* Back button styling */
+        .button {
+            margin: 10px;
+            padding: 8px 16px;
+            background-color: #001f3fcc;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #001f3fcc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">TravelGo</div>
+    </div>
+<!-- Main content wrapper -->
+<div class="hotels-container">
+    <h1>Hotels for Package {{ package_id }}</h1>
+    
+    <!-- Hotel cards grid -->
+    <ul class="hotels-list">
+        {% for hotel in hotels %}
+        <!-- Hotel card with dynamic image URL -->
+        <li>
+            <!-- Manually specify the image path for each hotel -->
+            {% if hotel['Name'] == 'Hotel Silver Oak' %}
+                <img src="{{ url_for('static', filename='images/silveroak.jpg') }}" alt="Silver Oak Hotel Image">
+            {% elif hotel['Name'] == 'Hotel Taj' %}
+                <img src="{{ url_for('static', filename='images/taj.jpg') }}" alt="Hotel Taj Image">
+            {% elif hotel['Name'] == 'Hotel Lakeview' %}
+                <img src="{{ url_for('static', filename='images/lakeview.jpg') }}" alt="Hotel Lakeview Image">
+            {% elif hotel['Name'] == 'Hotel Radisson' %}
+                <img src="{{ url_for('static', filename='images/radisson.jpg') }}" alt="Hotel Radisson Image">
+            {% elif hotel['Name'] == 'Taj Villa' %}
+                <img src="{{ url_for('static', filename='images/tajvilla.jpg') }}" alt="Taj Villa Image">
+            {% elif hotel['Name'] == 'Royale Regent' %}
+                <img src="{{ url_for('static', filename='images/royal.jpg') }}" alt="Royale Regent Image">
+            {% elif hotel['Name'] == 'Sea Breeze Residency' %}
+                <img src="{{ url_for('static', filename='images/seabreeze.jpg') }}" alt="Royale Regent Image">
+            {% elif hotel['Name'] == 'Ocean Pearl Inn' %}
+                <img src="{{ url_for('static', filename='images/oceanpearl.jpg') }}" alt="Royale Regent Image">
+            {% elif hotel['Name'] == 'Palm Grove Suites' %}
+                <img src="{{ url_for('static', filename='images/palmgrove.jpg') }}" alt="Royale Regent Image">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="Hotel Image">
+            {% endif %}
+            
+            <div class="hotel-info">
+                <h2>{{ hotel['Name'] }}</h2>
+                <p><strong>Rating:</strong> {{ hotel['Rating'] }}/5</p>
+                <p><strong>Price:</strong> ₹{{ hotel['Price'] }} per night</p>
+                <p><strong>Location:</strong> {{ hotel['Location'] }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- Back to Packages Button -->
+    <a href="{{ url_for('view_packages') }}" class="button">Back to Packages</a>
+</div>
+
+</body>
+</html>

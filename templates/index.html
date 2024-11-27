@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="navbar">
+    <div class="logo-container">
+      <h1 class="logo">TravelGo</h1>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="login">Login</a>
+      <a href="/signin">Register</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+<section class="hero" style="background: url('{{ url_for('static', filename='Background.jpg') }}') no-repeat center center / cover;">
+  <h1>TravelGo</h1>
+  <p>Wander. Explore. Experience.</p>
+  <a href="/login" class="explore-btn">Explore Now</a>
+</section>
+
+
+  <!-- Destinations Section -->
+  <section class="destinations">
+    <h2>Popular Destinations</h2>
+    <div class="destination-grid">
+      <div class="card">
+        <img src="{{ url_for('static', filename='Ooty.jpg') }}" alt="Ooty">
+        <p>Ooty - Hill station</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='Agra.jpg') }}" alt="Agra">
+        <p>Agra - Taj Mahal</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='Goa.jpg') }}" alt="Goa">
+        <p>Goa - Land of Sea</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='Wayanad.jpg') }}" alt="Wayanad">
+        <p>Wayanad - Hill Station</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='Hyderabad.jpg') }}" alt="Hyderabad">
+        <p>Hyderabad - Land of Biryani</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='Bengaluru.jpg') }}" alt="Bengaluru">
+        <p>Bengaluru - Garden City</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 TravelGo. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript for fetching data -->
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('http://localhost:3000/data');
+        const data = await response.json();
+        const tableBody = document.getElementById('data-body');
+        
+        // Clear previous data
+        tableBody.innerHTML = '';
+  
+        // Insert data rows
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.id}</td>
+            <td>${row.name}</td>
+            <td>${row.destination}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    
+  
+    fetchData();
+  </script>
+</body>
+</html>

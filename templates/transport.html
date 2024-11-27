@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Options</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Global Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .navbar {
+            width: 100%;
+            background-color: rgba(0, 31, 63, 0.8);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #002b4f;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f5ff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-container select {
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .table-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table th, .table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .table th {
+            background-color: #003366;
+            color: white;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #005f9e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #004a7c;
+        }
+        p {
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">TravelGo</div>
+    </div>
+
+    <!-- Main content wrapper -->
+    <div class="container main-content">
+        <!-- Page Heading -->
+        <h1>Transport Options for Package {{ package_id }}</h1>
+        
+        <!-- Transport Type Selection Box -->
+        <div class="form-container">
+            <form method="POST">
+                <label for="transport_type">Select Transport Type:</label>
+                <select name="transport_type" onchange="this.form.submit()">
+                    <option value="">--Select--</option>
+                    {% for type in transport_types %}
+                        <option value="{{ type['TransportTypeID'] }}" 
+                                {% if selected_transport_type == type['TransportTypeID'] %}selected{% endif %}>
+                            {{ type['TransportName'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+        
+        <!-- Transport Details Table -->
+        <div class="table-container">
+            {% if transports %}
+                <h2>Available Transports</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Start Location</th>
+                            <th>End Location</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transport in transports %}
+                        <tr>
+                            <td>{{ transport['StartTime'] }}</td>
+                            <td>{{ transport['EndTime'] }}</td>
+                            <td>{{ transport['StartLoc'] }}</td>
+                            <td>{{ transport['EndLoc'] }}</td>
+                            <td>₹{{ transport['Price'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No transport available for the selected type.</p>
+            {% endif %}
+        </div>
+
+        <!-- Back Button -->
+        <a href="{{ url_for('view_packages') }}" class="button">Back to Packages</a>
+    </div>
+
+</body>
+</html>

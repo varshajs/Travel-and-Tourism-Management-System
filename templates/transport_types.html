@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Types</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;">
+
+    <!-- Navbar (Optional) -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; background-color: rgba(0, 31, 63, 0.8); padding: 10px 20px; color: white;">
+        <div class="logo" style="font-size: 24px; font-weight: bold;">TravelGo</div>
+        <nav>
+            <a href="#" style="color: white; text-decoration: none; margin-left: 20px; transition: color 0.3s;">Home</a>
+            <a href="#" style="color: white; text-decoration: none; margin-left: 20px; transition: color 0.3s;">About</a>
+            <a href="#" style="color: white; text-decoration: none; margin-left: 20px; transition: color 0.3s;">Contact</a>
+        </nav>
+    </div>
+
+    <div class="container main-content" style="max-width: 900px; margin: 40px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="font-size: 32px; color: #002b4f; margin-bottom: 20px;">Transport Types</h1>
+
+        <!-- Flash messages for feedback -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" style="padding: 10px; margin-bottom: 20px; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724;{% elif category == 'error' %}background-color: #f8d7da; color: #721c24;{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="mb-4" style="margin-bottom: 20px;">
+            <a href="{{ url_for('add_transport_type') }}" class="button" style="display: inline-block; padding: 10px 20px; background-color: #001f3f; color: white; text-decoration: none; border-radius: 4px; text-align: center; transition: background-color 0.3s; font-size: 16px;">Add New Transport Type</a>
+        </div>
+
+        <table class="table table-striped" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="background-color: #001f3f; color: white; padding: 10px; text-align: left;">ID</th>
+                    <th style="background-color: #001f3f; color: white; padding: 10px; text-align: left;">Transport Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transport in transport_types %}
+                <tr style="border-bottom: 1px solid #ddd; {% if loop.index % 2 == 0 %}background-color: #f9f9f9;{% endif %}">
+                    <td style="padding: 10px;">{{ transport.TransportTypeID }}</td>
+                    <td style="padding: 10px;">{{ transport.TransportName }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('index') }}" class="button" style="display: inline-block; padding: 10px 20px; background-color: #001f3f; color: white; text-decoration: none; border-radius: 4px; text-align: center; transition: background-color 0.3s; font-size: 16px; margin-top: 20px;">Back to Home</a>
+    </div>
+
+</body>
+</html>

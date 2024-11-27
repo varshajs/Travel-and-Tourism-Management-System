@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: rgba(0, 31, 63, 0.9); /* TravelGo blue */
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(0, 31, 63, 0.8); /* TravelGo blue with slight transparency */
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light gray for even rows */
+        }
+
+        tr:hover {
+            background-color: #e0e0e0; /* Light gray on hover */
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: rgba(0, 31, 63, 0.9); /* TravelGo blue */
+            color: #ffffff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #001f3f; /* Darker shade of TravelGo blue */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>All Registered Users</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>UserID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['UserID'] }}</td>
+                    <td>{{ user['FirstName'] }}</td>
+                    <td>{{ user['LastName'] }}</td>
+                    <td>{{ user['Email'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('admin_dashboard') }}">Return to Dashboard</a>
+    </div>
+</body>
+</html>
